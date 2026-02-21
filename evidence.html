@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+<meta charset="UTF-8">
+<title>מערכת חקירות - ראיה מסווגת</title>
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    direction:rtl;
+    background:#0b132b;
+    color:white;
+    text-align:center;
+}
+header{
+    background:#1c2541;
+    padding:20px;
+    border-bottom:3px solid #3a506b;
+}
+.container{
+    padding:30px;
+}
+input{
+    padding:10px;
+    font-size:16px;
+    border-radius:6px;
+    border:none;
+    width:260px;
+}
+button{
+    padding:10px 20px;
+    margin:10px;
+    background:#3a506b;
+    border:none;
+    border-radius:8px;
+    color:white;
+    cursor:pointer;
+}
+button:hover{
+    background:#5bc0be;
+}
+#videoStep, #photoSection, #cardSearch, #searchBarContainer{
+    display:none;
+    margin-top:20px;
+}
+#searchBarContainer{
+    width:60%;
+    height:20px;
+    background:#222;
+    margin:20px auto;
+    border-radius:10px;
+    overflow:hidden;
+}
+#searchBar{
+    height:100%;
+    width:0%;
+    background:limegreen;
+    transition:0.4s;
+}
+img{
+    width:60%;
+    border:3px solid red;
+    border-radius:10px;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>מערכת חקירות משטרתית</h1>
+<p>גישה לרמת סיווג 4</p>
+</header>
+
+<div class="container">
+
+<h3>שלב 1 - הזן קוד ראיה</h3>
+<input type="text" id="codeInput">
+<br>
+<button onclick="checkCode()">אישור</button>
+<p id="codeResult"></p>
+
+<!-- שלב צילום סרטון -->
+<div id="videoStep">
+    <p>קוד אומת. צלמו סרטון מהחדר ושלחו ליוצר החדר.</p>
+    <button onclick="confirmVideo()">סימנו כשלחו</button>
+</div>
+
+<!-- שלב התמונה -->
+<div id="photoSection">
+    <h2>תמונה מהזירה</h2>
+    <p>זוהה פריט חריג.</p>
+    <img src="images/room.jpg" alt="תמונה מהחדר">
+    
+    <div id="cardSearch">
+        <h3>חיפוש פרטי אשראי</h3>
+        <input type="text" id="cardInput" placeholder="הזן מספר כרטיס">
+        <br>
+        <button onclick="searchCard()">חפש במאגרים</button>
+    </div>
+</div>
+
+<div id="searchBarContainer">
+    <div id="searchBar"></div>
+</div>
+
+<p id="finalResult"></p>
+
+</div>
+
+<script>
+function checkCode(){
+    let code = document.getElementById("codeInput").value;
+    if(code === "6767"){
+        document.getElementById("codeResult").innerHTML =
+        "קוד אומת. כעת צלמו סרטון מהחדר ושלחו ליוצר החדר, ואז סמנו אישור.";
+        document.getElementById("videoStep").style.display="block";
+    } else {
+        alert("קוד שגוי.");
+    }
+}
+
+function confirmVideo(){
+    // המשתמש סימן שהסרטון נשלח
+    document.getElementById("videoStep").style.display="none";
+    document.getElementById("photoSection").style.display="block";
+    document.getElementById("cardSearch").style.display="block";
+}
+
+function searchCard(){
+    let card = document.getElementById("cardInput").value;
+    if(card === "5384045671640027"){
+        document.getElementById("searchBarContainer").style.display="block";
+        let width = 0;
+        let bar = document.getElementById("searchBar");
+
+        let interval = setInterval(function(){
+            width += 10;
+            bar.style.width = width + "%";
+
+            if(width >= 100){
+                clearInterval(interval);
+                document.getElementById("finalResult").innerHTML =
+                "✔ בעל הכרטיס אותר במאגרי המשטרה.<br><br>שם: מאיה<br>סטטוס: חשודה מרכזית.<br><br>";
+                
+                let btn = document.createElement("button");
+                btn.innerText = "עבור למציאת החשודה ולעצור אותה";
+                btn.style.padding = "10px 20px";
+                btn.style.margin = "10px";
+                btn.style.background = "#e63946";
+                btn.style.color = "white";
+                btn.style.border = "none";
+                btn.style.borderRadius = "8px";
+                btn.style.cursor = "pointer";
+                btn.onclick = goToNextRoom;
+
+                document.getElementById("finalResult").appendChild(btn);
+            }
+        }, 300);
+
+    } else {
+        alert("הכרטיס לא נמצא במאגר.");
+    }
+}
+
+function goToNextRoom(){
+    window.location.href = "room3.html"; // כאן אתה מפנה לדף של החדר האחרון
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+<meta charset="UTF-8">
+<title>חדר חקירות - מערכת משטרתית</title>
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    direction:rtl;
+    background:#0b132b;
+    color:white;
+    text-align:center;
+}
+
+header{
+    background:#1c2541;
+    padding:20px;
+    border-bottom:3px solid #3a506b;
+}
+
+.container{
+    padding:30px;
+}
+
+button{
+    padding:12px 20px;
+    margin:10px;
+    background:#3a506b;
+    border:none;
+    border-radius:8px;
+    color:white;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#5bc0be;
+}
+
+.section{
+    display:none;
+    margin-top:20px;
+    background:#1c2541;
+    padding:20px;
+    border-radius:10px;
+}
+
+input{
+    padding:10px;
+    font-size:16px;
+    border-radius:5px;
+    border:none;
+}
+
+#gpsBox{
+    margin-top:30px;
+    display:none;
+}
+
+#barContainer{
+    width:60%;
+    height:25px;
+    background:#222;
+    margin:20px auto;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+#bar{
+    height:100%;
+    width:0%;
+    background:limegreen;
+    transition:0.5s;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>חדר חקירות - יחידה מבצעית</h1>
+<p>אחד החשודים דובר אמת בלבד</p>
+</header>
+
+<div class="container">
+
+<button onclick="show('itai')">חקירת איתי</button>
+<button onclick="show('maya')">חקירת מאיה</button>
+
+<div id="itai" class="section">
+<p>1. המכשיר לא נמצא בארון.</p>
+<p>2. הוא נמצא קרוב לרצפה.</p>
+<p>3. הוא לא מוסתר בתוך חפץ.</p>
+</div>
+
+<div id="maya" class="section">
+<p>1. המכשיר לא קרוב לרצפה.</p>
+<p>2. הוא נמצא במקום גבוה.</p>
+<p>3. הוא לא מתחת לרהיט.</p>
+</div>
+
+<div style="margin-top:30px;">
+<p>הזן את מיקום המכשיר:</p>
+<input type="text" id="locationInput">
+<button onclick="checkLocation()">אישור</button>
+<p id="result"></p>
+</div>
+
+<div id="gpsBox">
+<h2>מערכת לכידת GPS פעילה...</h2>
+<div id="barContainer">
+<div id="bar"></div>
+</div>
+<p id="gpsText"></p>
+</div>
+
+</div>
+
+<script>
+
+function show(id){
+    document.querySelectorAll('.section').forEach(s => s.style.display='none');
+    document.getElementById(id).style.display='block';
+}
+
+function checkLocation(){
+    let input = document.getElementById("locationInput").value.trim();
+    if(input === "מתחת למיטה"){
+        document.getElementById("result").innerHTML = "מיקום אומת. מפעיל מערכת איתור...";
+        startGPS();
+    } else {
+        document.getElementById("result").innerHTML = "שגיאה. ניתוח לוגי שגוי.";
+        alert("ניסיון איתור כושל. בדקו שוב את עדויות החשודים.");
+    }
+}
+
+function startGPS(){
+    document.getElementById("gpsBox").style.display="block";
+    let width = 0;
+    let bar = document.getElementById("bar");
+    let text = document.getElementById("gpsText");
+
+    let interval = setInterval(function(){
+        width += 10;
+        bar.style.width = width + "%";
+
+        if(width === 30){
+            text.innerHTML = "אות חלש נקלט...";
+        }
+        if(width === 60){
+            text.innerHTML = "דיוק מיקום משתפר...";
+        }
+        if(width === 100){
+            clearInterval(interval);
+            text.innerHTML = "מיקום אומת בהצלחה. המכשיר נמצא מתחת למיטה.";
+            alert("המכשיר אותר! בצעו חיפוש פיזי מיידי.");
+        }
+    }, 500);
+}
+
+</script>
+
+</body>
+</html>

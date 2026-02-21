@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+<meta charset="UTF-8">
+<title>חדר חקירה 2 – גילוי השותף</title>
+<style>
+body { font-family: Arial; direction: rtl; background: #f2f2f2; margin:0; padding:0;}
+header { background:#004080; color:white; padding:15px; text-align:center; font-size:24px; font-weight:bold; }
+#login { text-align:center; margin-top:50px; }
+#login input { padding:8px; font-size:16px; width:200px; }
+#login button { padding:8px 12px; font-size:16px; margin-left:10px; background:#004080; color:white; border:none; cursor:pointer; }
+#loginError { color:red; margin-top:10px; }
+#main { display:none; padding:20px; }
+.timer { font-size:20px; font-weight:bold; margin-bottom:20px; color:#004080; }
+.suspect { display:inline-block; margin:10px; padding:15px 25px; background:#0073e6; color:white; cursor:pointer; font-weight:bold; border-radius:5px; }
+.suspect:hover { background:#0059b3; }
+.tacke { display:none; margin-top:10px; padding:15px; background:white; border-radius:5px; border:2px solid #004080; text-align:right; }
+.tacke h3 { margin-top:0; color:#004080; }
+.tacke p { margin:5px 0; }
+#casesContainer { margin-top:20px; }
+#hintsContainer { margin-top:30px; padding:15px; background:#e0e0e0; border-radius:5px; }
+.hintBlock { margin-bottom:15px; }
+.hintBlock input { padding:5px; width:60%; margin-right:5px; }
+.hintBlock button { padding:5px 10px; background:#004080; color:white; border:none; cursor:pointer; }
+.hintBlock button:hover { background:#0059b3; }
+.timeline { margin-top:20px; border-collapse:collapse; width:100%; max-width:600px; }
+.timeline th, .timeline td { border:1px solid #004080; padding:8px; text-align:center; }
+.timeline th { background:#004080; color:white; }
+</style>
+</head>
+<body>
+
+<header>משטרת ישראל – חדר חקירה 2</header>
+
+<div id="login">
+  <p>הכנס שם שוטר :</p>
+  <input type="text" id="username" placeholder="שם משתמש">
+  <button onclick="login()">התחל חקירה</button>
+  <p id="loginError"></p>
+</div>
+
+<div id="main">
+  <div class="timer" id="timer">40:00</div>
+
+  <h2>ציר זמן האירוע</h2>
+  <table class="timeline">
+    <tr><th>שעה</th><th>אירוע</th></tr>
+    <tr><td>21:10</td><td>סיום שיחה של מאיה</td></tr>
+    <tr><td>21:12</td><td>נועה מסיימת מקלחת</td></tr>
+    <tr><td>21:13</td><td>איתי קם מהמיטה</td></tr>
+    <tr><td>21:15</td><td>חפץ קטן נפל במסדרון</td></tr>
+    <tr><td>21:17</td><td>טביעת אצבע כפולה על החפץ</td></tr>
+    <tr><td>21:18</td><td>הודעה מוצפנת נשלחת למישהו</td></tr>
+    <tr><td>21:20</td><td>חשודים נוספים נראים בסביבה</td></tr>
+    <tr><td>21:22</td><td>מסמך מוסתר מגלה רמזים נוספים</td></tr>
+  </table>
+
+  <h2>חשודים</h2>
+  <div class="suspect" onclick="toggleCase('noa')">נועה</div>
+  <div class="suspect" onclick="toggleCase('maya')">מאיה</div>
+  <div class="suspect" onclick="toggleCase('iti')">איתי</div>
+  <div class="suspect" onclick="toggleCase('noam')">נועם</div>
+  <div class="suspect" onclick="toggleCase('tom')">תומר</div>
+  <div class="suspect" onclick="toggleCase('dana')">דנה</div>
+
+  <div id="casesContainer">
+    <div class="tacke" id="noaCase">
+      <h3>נועה</h3>
+      <p>טענה: סיימתי מקלחת בזמן.</p>
+      <p>ראיות: דוח מים, טביעות רגל רטובות במסדרון, מצלמה של דלת חדר השירותים.</p>
+    </div>
+
+    <div class="tacke" id="mayaCase">
+      <h3>מאיה כהן</h3>
+      <p>טענה: דיברתי בטלפון מ־21:00 עד 21:10.</p>
+      <p>ראיות: רישום שיחה התחיל ב־21:05, חפץ עם טביעת אצבע, מסמך מוצפן עם הוראות מסתוריות.</p>
+    </div>
+
+    <div class="tacke" id="itiCase">
+      <h3>איתי רז</h3>
+      <p>טענה: ישנתי מ־20:30.</p>
+      <p>ראיות: רעש בחדר ב־21:03, כרטיס קטן עם ראשי תיבות IR על הרצפה.</p>
+        <p>⚠️ רמז: האם יש קשר בין הכרטיס לבין הראיות?</p>
+    </div>
+
+    <div class="tacke" id="noamCase">
+      <h3>נועם לוי</h3>
+      <p>טענה: לא הייתי במקום האירוע.</p>
+      <p>ראיות: טביעות אצבע מעורפלות על חפץ ליד מאיה, הודעה מוצפנת, מיקום סמוי במסדרון.</p>
+      <p>:.</p>
+    </div>
+
+    <div class="tacke" id="tomCase">
+      <h3>תומר</h3>
+      <p>טענה: היה בסלון.</p>
+      <p>ראיות : מסמך חפיפה עם שעות האירוע, חפץ קטן לידו.</p>
+       <p>⚠️ רמז: האם יש קשר בין החפץ לבין הראיות?</p>
+    </div>
+
+    <div class="tacke" id="danaCase">
+      <h3>דנה</h3>
+      <p>טענה: הייתה בחדר אחר.</p>
+      <p>ראיות : פתק עם אליבי, חפץ קטן על השולחן.</p>
+         <p>⚠️ רמז: האם החפץ הקטן קשור לאירוע?</p>
+    </div>
+  </div>
+
+  <div id="hintsContainer">
+    <h2>חידות החקירה</h2>
+  </div>
+</div>
+
+<script>
+let user = "";
+let totalTime = 40*60;
+let timerInterval;
+let currentHint = 0;
+
+const allowedUsers = ["נועה","גאיה",""];
+
+const hints = [
+  { q: "חידה 1: ניתוח טביעות אצבע – מי היה ליד החפץ שנפל?", a: "איתי" },
+  { q: "חידה 2: פענוח מסמך מוצפן שמצאנו בחדר מאיה – מה מספר הקוד?", a: "6767" },
+  { q: "חידה 3: חפץ קטן במסדרון – השחקניות צריכות לזהות מי יכול היה להשאיר אותו.", a: "איתי" },
+  { q: "חידה 4: השוואת אליבי לפי ציר הזמן – מי לא יכול היה להיות במקום האירוע?", a: "נועה" },
+  { q: "חידה 5: פענוח הודעה מוצפנת שמציגה קשר בין חשודים (ללא גילוי השותף).", a: "מאיה" },
+  { q: "חידה 6: סיום החקירה – שילוב רמזים כדי לפתוח קוד סודי.", a: "417" }
+];
+
+function login() {
+  const name = document.getElementById("username").value.trim();
+  if(!allowedUsers.includes(name)) {
+    document.getElementById("loginError").innerText = "שם משתמש לא חוקי!";
+    return;
+  }
+  user = name;
+  document.getElementById("login").style.display = "none";
+  document.getElementById("main").style.display = "block";
+  startTimer();
+  showHint();
+}
+
+function toggleCase(id) {
+  const el = document.getElementById(id+"Case");
+  el.style.display = (el.style.display === "block") ? "none" : "block";
+}
+
+function showHint() {
+  if(currentHint >= hints.length) {
+    document.getElementById("hintsContainer").innerHTML += "<p style='color:green'>סיימת את כל החידות!</p>";
+    return;
+  }
+  const hint = hints[currentHint];
+  const container = document.getElementById("hintsContainer");
+  container.innerHTML += `
+    <div class="hintBlock" id="hint${currentHint}">
+      <p>${hint.q}</p>
+      <input type="text" id="answer${currentHint}">
+      <button onclick="checkAnswer(${currentHint})">בדוק תשובה</button>
+      <p id="feedback${currentHint}" style="color:red;"></p>
+    </div>
+  `;
+}
+
+function checkAnswer(index) {
+  const input = document.getElementById("answer"+index).value.trim();
+  if(input === hints[index].a) {
+    document.getElementById("feedback"+index).innerText = "נכון!";
+    currentHint++;
+    showHint();
+  } else {
+    document.getElementById("feedback"+index).innerText = "לא נכון, נסו שוב!";
+  }
+}
+
+function startTimer() {
+  let timer = totalTime;
+  timerInterval = setInterval(() => {
+    let minutes = Math.floor(timer/60);
+    let seconds = timer%60;
+    document.getElementById("timer").innerText = `${minutes}:${seconds<10?'0'+seconds:seconds}`;
+    timer--;
+    if(timer<0) {
+      clearInterval(timerInterval);
+      alert("הזמן נגמר! המשחק הסתיים");
+    }
+  },1000);
+}
+</script>
+
+</body>
+</html>

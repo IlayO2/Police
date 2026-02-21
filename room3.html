@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+<meta charset="UTF-8">
+<title>חדר בריחה – זירה משנית</title>
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    direction:rtl;
+    background:#0b132b;
+    color:white;
+    text-align:center;
+}
+header{
+    background:#1c2541;
+    padding:20px;
+    border-bottom:3px solid #3a506b;
+}
+.container{
+    padding:30px;
+}
+input{
+    padding:10px;
+    font-size:16px;
+    border-radius:6px;
+    border:none;
+    width:300px;
+}
+button{
+    padding:10px 20px;
+    margin:10px;
+    background:#3a506b;
+    border:none;
+    border-radius:8px;
+    color:white;
+    cursor:pointer;
+}
+button:hover{
+    background:#5bc0be;
+}
+#gpsBarContainer{
+    width:60%;
+    height:25px;
+    background:#222;
+    margin:20px auto;
+    border-radius:10px;
+    overflow:hidden;
+    display:none;
+}
+#gpsBar{
+    height:100%;
+    width:0%;
+    background:limegreen;
+    transition:0.5s;
+}
+#puzzleStep{
+    display:none;
+    margin-top:20px;
+}
+#finalStep{
+    display:none;
+    margin-top:20px;
+    background:#1c2541;
+    padding:20px;
+    border-radius:10px;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>זירה משנית – שלב סופי</h1>
+<p>המערכת מזהה אות חדש ומציגה רמז למיקום הבא.</p>
+</header>
+
+<div class="container">
+
+<p>ניסיון למשוך כספים נוסף זוהה ברגעים אלה. המיקום אינו תואם לזירה הנוכחית.</p>
+<button onclick="startGPS()">איתור האות</button>
+
+<div id="gpsBarContainer">
+    <div id="gpsBar"></div>
+</div>
+
+<div id="puzzleStep">
+    <p>רק מי שיודע איפה החשודה מבלה את רוב זמנה יוכל להמשיך.<br>
+    רמז: המקום שבו היא נמצאת כשאין אף אחד אחר מסביבה.</p>
+    <input type="text" id="locationInput" placeholder="הקלידו את המיקום">
+    <br>
+    <button onclick="checkLocation()">אישור</button>
+</div>
+
+<div id="finalStep">
+    <h2>הזירה המשנית פעילה!</h2>
+    <p>עברו מיד למיקום הבא – החדר השני.</p>
+</div>
+
+</div>
+
+<script>
+function startGPS(){
+    document.getElementById("gpsBarContainer").style.display="block";
+    let bar = document.getElementById("gpsBar");
+    let width = 0;
+    let gpsStep = document.getElementById("puzzleStep");
+    
+    let interval = setInterval(function(){
+        width += 10;
+        bar.style.width = width + "%";
+
+        if(width === 20) bar.innerHTML = "איתור אות חלש...";
+        if(width === 40) bar.innerHTML = "דיוק משתפר...";
+        if(width === 60) bar.innerHTML = "אות קרוב...";
+        if(width === 80) bar.innerHTML = "אות ממוקם בטווח 10 מטר...";
+        if(width >= 100){
+            clearInterval(interval);
+            bar.innerHTML = "אות זוהה בטווח 5 מטרים מהמיקום שלכם!";
+            gpsStep.style.display="block";
+        }
+    }, 500);
+}
+
+function checkLocation(){
+    let input = document.getElementById("locationInput").value.trim().toLowerCase();
+    // אפשר להוסיף כאן כל שם חדר שרוצים
+    if(input === "חדר שלהן" || input === "חדר מאיה" || input === "חדר"){
+        document.getElementById("finalStep").style.display="block";
+        document.getElementById("puzzleStep").style.display="none";
+        alert("השלב הסופי נפתח! עברו לחדר השני.");
+    } else {
+        alert("המיקום אינו נכון. בדקו שוב את הרמזים.");
+    }
+}
+</script>
+
+</body>
+</html>

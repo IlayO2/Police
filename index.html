@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+alert("ברוכים הבאים למשחק החקירה! הכנסו שם חוקר כדי להתחיל את החקירה של תיק 417. בהצלחה!")
+alert("הזמן מוגבל ל-40 דקות, אז תמהרו לפתור את החידות ולגלות מי האשם! אל תשכחו לבדוק את הראיות והטענות של כל חשוד. בהצלחה!")
+alert( " יש לשלוח את כל התשובות למספר הטלפון של יוצר החדר!" )
+<html lang="he">
+<head>
+<meta charset="UTF-8">
+<title>תיק 417 – חקירה משטרתית</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  direction: rtl;
+  margin: 0;
+  padding: 0;
+}
+header {
+  background: #004080;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+#login {
+  text-align: center;
+  margin-top: 50px;
+}
+#login input {
+  padding: 8px;
+  font-size: 16px;
+  width: 200px;
+}
+#login button {
+  padding: 8px 12px;
+  font-size: 16px;
+  margin-left: 10px;
+  background: #004080;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+#loginError { color: red; margin-top: 10px; }
+#main { display: none; padding: 20px; }
+.timer { font-size: 20px; font-weight: bold; margin-bottom: 20px; color: #004080; }
+.suspect {
+  display: inline-block;
+  margin: 10px;
+  padding: 15px 25px;
+  background: #0073e6;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+}
+.suspect:hover { background: #0059b3; }
+.tacke {
+  display: none;
+  margin-top: 10px;
+  padding: 15px;
+  background: white;
+  border-radius: 5px;
+  border: 2px solid #004080;
+  text-align: right;
+}
+.tacke h3 { margin-top: 0; color: #004080; }
+.tacke p { margin: 5px 0; }
+#casesContainer { margin-top: 20px; }
+#hintsContainer {
+  margin-top: 30px;
+  padding: 15px;
+  background: #e0e0e0;
+  border-radius: 5px;
+}
+.hintBlock { margin-bottom: 15px; }
+.hintBlock input { padding: 5px; width: 60%; margin-right: 5px; }
+.hintBlock button { padding: 5px 10px; background: #004080; color: white; border: none; cursor: pointer; }
+.hintBlock button:hover { background: #0059b3; }
+.timeline {
+  margin-top: 20px;
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 600px;
+}
+.timeline th, .timeline td {
+  border: 1px solid #004080;
+  padding: 8px;
+  text-align: center;
+}
+.timeline th { background: #004080; color: white; }
+</style>
+</head>
+<body>
+
+<header>משטרת ישראל – תיק חקירה 417</header>
+
+<div id="login">
+  <p>הכנס שם חוקר :</p>
+  <input type="text" id="username" placeholder="שם משתמש">
+  <button onclick="login()">התחל חקירה</button>
+  <p id="loginError"></p>
+</div>
+
+<div id="main">
+  <div class="timer" id="timer">40:00</div>
+
+  <h2>ציר זמן האירוע</h2>
+  <table class="timeline">
+    <tr><th>שעה</th><th>אירוע</th></tr>
+    <tr><td>20:30</td><td>איתי ישן בחדרו</td></tr>
+    <tr><td>20:55</td><td>נועה נכנסת למקלחת</td></tr>
+    <tr><td>20:58</td><td>מאיה נראית במסדרון</td></tr>
+    <tr><td>21:00</td><td>התחלת שימוש במקלחת (דוח מים)</td></tr>
+    <tr><td>21:01</td><td>דלת נפתחת ברעש קל</td></tr>
+    <tr><td>21:02</td><td>אור נדלק בחדר</td></tr>
+    <tr><td>21:03</td><td>שכנים שמעו רעש בחדר של איתי (נפילת חפץ)</td></tr>
+    <tr><td>21:05</td><td>שיחת טלפון מתחילה</td></tr>
+    <tr><td>21:07</td><td>דלת נסגרה</td></tr>
+  </table>
+
+  <h2>חשודים</h2>
+  <div class="suspect" onclick="toggleCase('noa')">נועה</div>
+  <div class="suspect" onclick="toggleCase('maya')">מאיה</div>
+  <div class="suspect" onclick="toggleCase('iti')">איתי</div>
+
+  <div id="casesContainer">
+    <div class="tacke" id="noaCase">
+      <h3>👩 חשודה 1 –  מספר תיק- 341 נועה לוי (נראית חשודה!)</h3>
+      <p><b>טענה:</b> “הייתי במקלחת מ־20:55 עד 21:15.”</p>
+      <p><b>ראיות שמחשידות:</b></p>
+      <ul>
+        <li>הרצפה ליד המקלחת רטובה</li>
+        <li>טביעת אצבע על ידית הדלת</li>
+         <li>נשמעה דלת נטרקת בזמן האירוע</li>
+      </ul>
+        <p><b>⚠️ למה זה מחשיד?
+ :</b> אם היא במקלחת — איך הטביעה שלה על ידית הדלת?</p>
+    </div>
+
+    <div class="tacke" id="mayaCase">
+      <h3>👩 חשודה 2 – מאיה כהן מספר תיק- 417</h3>
+      <p><b>טענה:</b> “דיברתי בטלפון מ־21:00 עד 21:10.”</p>
+      <p><b>ראיות שמחשידות:</b></p>
+      <ul>
+        <li>רישום שיחה מראה שהשיחה התחילה ב־21:05</li>
+        <li>טביעת אצבע על שולחן העבודה</li>
+        <li>נראתה במסדרון ב־20:58</li>
+      </ul>
+        <p><b>⚠️ למה זה מחשיד?
+ :</b> היא שיקרה לגבי שעת השיחה.ה</p>
+    </div>
+
+    <div class="tacke" id="itiCase">
+      <h3>👨 חשוד 3 – איתי רז מספר תיק- 676</h3>
+      <p><b>טענה:</b> “ישנתי מ־20:30.”</p>
+      <p><b>ראיות שמחשידות :</b></p>
+      <ul>
+        <li>השכנים שמעו רעש בחדר שלו ב־21:03 (נפילת חפץ קטן)</li>
+        <li>נמצא כרטיס קטן על הרצפה ליד שולחן העבודה עם ראשי התיבות שלו (IR)</li>
+        <li>לא היה אליבי מלא בדיוק בזמן ההתרחשות</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="hintsContainer">
+    <h2>חידות החקירה</h2>
+  </div>
+</div>
+
+<script>
+let user = "";
+let totalTime = 40*60;
+let timerInterval;
+let currentHint = 0;
+
+const allowedUsers = ["נועה","גאיה",];
+
+const hints = [
+  { q: "חידה 1: מי טוען טענה שאינה תואמת את ציר הזמן?", a: "מאיה" },
+  { q: "חידה 2: פענחו את הצופן: נבזב תבמחד", a: "מושג שקר" },
+  { q: "חידה 3: מי עשוי היה להפעיל רעש בחדר?", a: "איתי" },
+  { q: "חידה 4: השוואת אליבי – מי חף מפשע?", a: "נועה" },
+  { q: "חידה 5: ראיות מטעות – מי נראה חשוד לפי הרעש?", a: "איתי" },
+  { q: "חידה 6: מספר התיק של האשמה (קוד לאתר)?", a: "417" }
+];
+
+function login() {
+  const name = document.getElementById("username").value.trim();
+  if(!allowedUsers.includes(name)) {
+    document.getElementById("loginError").innerText = "שם משתמש לא חוקי!";
+    return;
+  }
+  user = name;
+  document.getElementById("login").style.display = "none";
+  document.getElementById("main").style.display = "block";
+  startTimer();
+  showHint();
+}
+
+function toggleCase(id) {
+  const el = document.getElementById(id+"Case");
+  el.style.display = (el.style.display === "block") ? "none" : "block";
+}
+
+function showHint() {
+  if(currentHint >= hints.length) {
+    document.getElementById("hintsContainer").innerHTML += "<p style='color:green'> סיימת את כל החידות! עבור לחידות החדר</p>";
+    return;
+  }
+  const hint = hints[currentHint];
+  const container = document.getElementById("hintsContainer");
+  container.innerHTML += `
+    <div class="hintBlock" id="hint${currentHint}">
+      <p>${hint.q}</p>
+      <input type="text" id="answer${currentHint}">
+      <button onclick="checkAnswer(${currentHint})">בדוק תשובה</button>
+      <p id="feedback${currentHint}" style="color:red;"></p>
+    </div>
+  `;
+}
+
+function checkAnswer(index) {
+  const input = document.getElementById("answer"+index).value.trim();
+  if(input === hints[index].a) {
+    document.getElementById("feedback"+index).innerText = "נכון!";
+    currentHint++;
+    showHint();
+  } else {
+    document.getElementById("feedback"+index).innerText = "לא נכון, נסו שוב!";
+  }
+}
+
+function startTimer() {
+  let timer = totalTime;
+  timerInterval = setInterval(() => {
+    let minutes = Math.floor(timer/60);
+    let seconds = timer%60;
+    document.getElementById("timer").innerText = `${minutes}:${seconds<10?'0'+seconds:seconds}`;
+    timer--;
+    if(timer<0) {
+      clearInterval(timerInterval);
+      alert("הזמן נגמר! המשחק הסתיים");
+    }
+  },1000);
+}
+</script>
+
+</body>
+</html>
